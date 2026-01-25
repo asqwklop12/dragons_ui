@@ -1,7 +1,7 @@
 "use client";
 
-import {useState} from "react";
-import {paymentApi} from "@/lib/payment";
+import { useState } from "react";
+import { paymentApi } from "@/lib/payment";
 
 
 interface TossPayFormProps {
@@ -30,7 +30,6 @@ export default function TossPayForm({ amount, planType, tossPayments }: TossPayF
             const initResponse = await paymentApi.requestTossPayment({
                 amount: amount,
                 orderName: "구독",
-                customerName: "홍길동",
                 planType: planType
             });
             console.log("Backend response received:", initResponse);

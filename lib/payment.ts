@@ -36,7 +36,7 @@ export interface BankTransferResponse {
 export interface TossPaymentRequest {
     amount: number;
     orderName: string;
-    customerName: string;
+    // customerName removed as it is handled by backend session
     planType?: string;
     orderId?: string;
 }

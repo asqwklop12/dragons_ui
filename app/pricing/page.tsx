@@ -14,10 +14,10 @@ export default function PricingPage() {
                 throw new Error("Unauthorized");
             })
             .then((data) => {
-                if (data.meta.result === "SUCCESS" && data.data.name) {
-                    return fetch(`/api/subscriptions?name=${data.data.name}`);
+                if (data.meta.result === "SUCCESS" && data.data.email) {
+                    return fetch(`/api/subscriptions`);
                 }
-                throw new Error("No user name");
+                throw new Error("No user email");
             })
             .then((res) => res.json())
             .then((data) => {
