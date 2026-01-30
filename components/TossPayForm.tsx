@@ -8,9 +8,11 @@ interface TossPayFormProps {
     amount: number;
     planType: string;
     tossPayments: any; // The Toss SDK instance
+    customerName?: string;
 }
 
-export default function TossPayForm({ amount, planType, tossPayments }: TossPayFormProps) {
+
+export default function TossPayForm({ amount, planType, tossPayments, customerName }: TossPayFormProps) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -30,12 +32,15 @@ export default function TossPayForm({ amount, planType, tossPayments }: TossPayF
             const initResponse = await paymentApi.requestTossPayment({
                 amount: amount,
                 orderName: "구독",
-                planType: planType
+                planType: planType,
+                customerName: customerName || "" // Send to backend
             });
             console.log("Backend response received:", initResponse);
 
             // 2. Map data from backend
-            const { orderId, amount: resAmount, orderName, customerName } = initResponse;
+            // customerName might be returned from backend logic if not sent, or we fallback
+            const { orderId, amount: resAmount, orderName, customerName: resCustomerName } = initResponse;
+            const finalCustomerName = resCustomerName || customerName || "Unknown Customer";
 
             // UI Redirect URLs (Point to frontend instead of API)
             const frontendBaseUrl = window.location.origin;
@@ -59,7 +64,7 @@ export default function TossPayForm({ amount, planType, tossPayments }: TossPayF
                 orderName: orderName,
                 successUrl: uiSuccessUrl,
                 failUrl: uiFailUrl,
-                customerName: customerName,
+                customerName: finalCustomerName,
                 card: {
                     easyPay: "TOSSPAY",
                     flowMode: "DIRECT",

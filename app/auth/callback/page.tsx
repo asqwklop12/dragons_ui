@@ -1,14 +1,15 @@
 "use client";
 
-import {Suspense, useEffect, useState} from "react";
-import {useRouter, useSearchParams} from "next/navigation";
-import {authApi} from "@/lib/auth";
+import { Suspense, useEffect, useState, useRef } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { authApi } from "@/lib/auth";
 
 function CallbackContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const code = searchParams.get("code");
     const [status, setStatus] = useState("로그인 처리 중...");
+    const hasRequested = useRef(false); // Prevent double firing in Strict Mode
 
     useEffect(() => {
         if (!code) {
@@ -17,6 +18,9 @@ function CallbackContent() {
         }
 
         const processLogin = async () => {
+            if (hasRequested.current) return;
+            hasRequested.current = true;
+
             try {
                 await authApi.loginWithGoogle(code);
                 // Login success

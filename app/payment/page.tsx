@@ -18,6 +18,7 @@ export default function PaymentPage() {
     const [selectedMethod, setSelectedMethod] = useState<string | null>(null); // 'CARD' | 'BANK' | 'TOSS' | null
     const [tossPayments, setTossPayments] = useState<any>(null);
     const [userEmail, setUserEmail] = useState<string | null>(null);
+    const [userName, setUserName] = useState<string | null>(null);
 
     useEffect(() => {
         if (!clientKey) {
@@ -38,6 +39,9 @@ export default function PaymentPage() {
                 if (data.data && data.data.email) {
                     setUserEmail(data.data.email);
                 }
+                if (data.data && data.data.name) {
+                    setUserName(data.data.name);
+                }
             })
             .catch(() => {
                 // Ignore error if not logged in
@@ -52,7 +56,7 @@ export default function PaymentPage() {
             return <BankTransferForm amount={price} planType="premium" />;
         }
         if (selectedMethod === 'TOSS') {
-            return <TossPayForm amount={price} planType="premium" tossPayments={tossPayments} />;
+            return <TossPayForm amount={price} planType="premium" tossPayments={tossPayments} customerName={userName || undefined} />;
         }
         return null;
     };
