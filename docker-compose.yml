@@ -15,5 +15,5 @@ services:
       - SERVER_API_URL=${SERVER_API_URL:-https://dev-api.dragons.com:8083}
       - PORT=3001
     env_file:
-      - .env.local
+      - .env
     restart: always
