@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: dragons-ui
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_TOSS_CLIENT_KEY: ${NEXT_PUBLIC_TOSS_CLIENT_KEY}
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - SERVER_API_URL=${SERVER_API_URL:-https://dev-api.dragons.com:8083}
+      - PORT=3001
+    env_file:
+      - .env.local
+    restart: always
