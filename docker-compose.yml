@@ -12,7 +12,7 @@ services:
       - "3001:3001"
     environment:
       - NODE_ENV=production
-      - SERVER_API_URL=${SERVER_API_URL:-https://dev-api.dragons.com:8083}
+      - SERVER_API_URL=${SERVER_API_URL:-http://dragons-api:8083}
       - PORT=3001
     env_file:
       - .env
