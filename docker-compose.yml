@@ -20,7 +20,6 @@ services:
     networks:
       - default
       - nginx_net
-      - uidev_net
 
 networks:
   default:
@@ -28,7 +27,4 @@ networks:
     external: true
   nginx_net:
     name: docker_default
-    external: true
-  uidev_net:
-    name: uidev_default
     external: true
