@@ -3,14 +3,20 @@ version: '3.8'
 services:
   app:
     container_name: dragons-ui
-    # The image will be pulled from ECR
-    image: ${ECR_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}
+    # Build directly on the server (No ECR)
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_TOSS_CLIENT_KEY: ${NEXT_PUBLIC_TOSS_CLIENT_KEY}
     ports:
-      - "3000:3000"
+      # External 3000 -> Internal 3001 (Because Dockerfile has EXPOSE 3001)
+      - "3000:3001"
     environment:
       - NODE_ENV=production
       - SERVER_API_URL=${SERVER_API_URL}
-      - PORT=3000
+      # Tell Next.js to start on 3001 internally
+      - PORT=3001
     restart: always
     networks:
       - default
