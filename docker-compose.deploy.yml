@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: dragons-ui
+    # The image will be pulled from ECR
+    image: ${ECR_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - SERVER_API_URL=${SERVER_API_URL}
+      - PORT=3000
+    restart: always
+    networks:
+      - default
+      - nginx_net
+
+networks:
+  default:
+    name: mysql_default
+    external: true
+  nginx_net:
+    name: docker_default
+    external: true
