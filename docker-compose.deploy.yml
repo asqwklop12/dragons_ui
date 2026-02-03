@@ -18,14 +18,11 @@ services:
       # Tell Next.js to start on 3001 internally
       - PORT=3001
     restart: always
+    # 네트워크 설정 단순화 (Nginx와 연결 필요 시 해당 네트워크 이름 일치시켜야 함)
     networks:
-      - default
-      - nginx_net
+      - dragons_net
 
 networks:
-  default:
-    name: mysql_default
-    external: true
-  nginx_net:
-    name: docker_default
-    external: true
+  dragons_net:
+    driver: bridge
+    # 외부 네트워크 의존성 제거 (자동 생성)
