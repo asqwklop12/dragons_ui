@@ -18,13 +18,9 @@ services:
       - .env
     restart: always
     networks:
-      - default
-      - nginx_net
+      - dragons_default
 
 networks:
-  default:
-    name: mysql_default
-    external: true
-  nginx_net:
-    name: docker_default
+  dragons_default:
+    name: dragons_default
     external: true
